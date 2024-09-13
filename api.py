@@ -5,7 +5,14 @@ class API:
     def __call__(self, environ, start_response):
         request = Request(environ)
         
-        response = Response()
-        response.text = 'Hello World!'
+        response = self.handle_request(request) 
 
-        return response(environ, start_response) 
+        return response(environ, start_response)
+
+    def handle_request(self, request):
+        user_agent = request.environ.get("HTTP_USER_AGENT", "No user agent found")
+
+        response = Response()
+        response.text = f"Hello, my friend with this user agent: {user_agent}"
+
+        return response
