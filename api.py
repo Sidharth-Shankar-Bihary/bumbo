@@ -22,13 +22,14 @@ class API:
     def handle_request(self, request):
         response = Response()
 
-        for path, handler in self.routes.items():
-            if path == request.path:
-                handler(request, response)
-                return response
-        self.default_response(response)
+        handler = self.find_handler(request_path=request.path)
+        handler(request, response)
+
         return response
 
-    def default_response(self, response):
+    def find_handler(self, request_path):
+        return self.routes.get(request_path, self.default_response)
+
+    def default_response(self, request, response):
         response.status_code = 404
         response.text = "Not found."
