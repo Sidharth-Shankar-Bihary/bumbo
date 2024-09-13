@@ -7,6 +7,9 @@ class API:
         self.routes = dict()
 
     def route(self, path):
+        if path in self.routes:
+            raise ValueError("Such route already exists.")
+
         def wrapper(handler):
             self.routes[path] = handler
             return handler
