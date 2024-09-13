@@ -17,3 +17,8 @@ def about(request, response):
 @app.route("/hello/{name}")
 def greeting(request, response, name):
     response.text = f"Hello, {name}"
+
+@app.route("/tell/{age:d}")
+def tell_age(request, response, age):
+    response.text = f"Hi, you mentioned that you are {age} years old"
+
