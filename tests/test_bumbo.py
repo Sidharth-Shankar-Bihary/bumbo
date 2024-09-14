@@ -2,6 +2,10 @@ import sys
 sys.path.append('.')
 import pytest
 
+
+test_server_base_url = "http://testserver"
+
+
 def test_basic_route(app):
     @app.route("/home")
     def home(req, resp):
@@ -18,3 +22,23 @@ def test_route_overlap_throws_exception(app):
 
         def home2(req, resp):
             resp.text = "YOLO again"
+
+
+def test_bumbo_test_client_can_send_requests(app, client):
+    expected_response_text = "Hello World!"
+
+    @app.route("/home")
+    def home(req, resp):
+        resp.text = "Hello World!"
+
+    assert expected_response_text == client.get(test_server_base_url+"/home").text
+
+
+def test_parameterized_route(app, client):
+    @app.route("/{name}")
+    def hello(req, resp, name):
+        resp.text = f"Hi, {name}"
+
+    assert "Hi, Sid" == client.get(test_server_base_url+"/Sid").text
+    assert "Hi, Trisha" == client.get(test_server_base_url+"/Trisha").text
+    
