@@ -41,4 +41,10 @@ def test_parameterized_route(app, client):
 
     assert "Hi, Sid" == client.get(test_server_base_url+"/Sid").text
     assert "Hi, Trisha" == client.get(test_server_base_url+"/Trisha").text
-    
+
+
+def test_default_404_response(client):
+    response = client.get(test_server_base_url+"/doesnotexist")
+
+    assert response.status_code == 404
+    assert response.text == "Not found."
