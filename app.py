@@ -30,6 +30,11 @@ class BookResource:
         resp.text = "Books page"
 
 
+@app.route("/template")
+def template_handler(req, resp):
+    resp.body = app.template("index.html", context={"name": "bumbo", "title": "Best framework"}).encode()
+
+
 def handler1(req, resp):
     resp.text = "YOLO"
 
