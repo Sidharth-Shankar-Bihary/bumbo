@@ -35,6 +35,11 @@ def template_handler(req, resp):
     resp.body = app.template("index.html", context={"name": "bumbo", "title": "Best framework"}).encode()
 
 
+@app.route("/exception")
+def exception_throwing_handler(request, response):
+    raise AssertionError("This handler should not be user")
+
+
 def handler1(req, resp):
     resp.text = "YOLO"
 
@@ -46,3 +51,9 @@ def handler2(req, resp):
 app.add_route("/home1", handler1)
 app.add_route("/home2", handler2)
 
+
+def custom_exception_handler(request, response, exception_cls):
+    response.text = "Oops! Something went wrong. Please contact our customer support."
+
+
+app.add_exception_handler(custom_exception_handler)
