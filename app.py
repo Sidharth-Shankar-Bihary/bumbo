@@ -28,3 +28,16 @@ def tell_age(request, response, age):
 class BookResource:
     def get(self, req, resp):
         resp.text = "Books page"
+
+
+def handler1(req, resp):
+    resp.text = "YOLO"
+
+
+def handler2(req, resp):
+    resp.text = "YOLO"
+
+
+app.add_route("/home1", handler1)
+app.add_route("/home2", handler2)
+

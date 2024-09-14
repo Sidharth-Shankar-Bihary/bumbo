@@ -58,3 +58,14 @@ def test_class_handler_get_method(app, client):
             resp.text = expected_response
 
     assert client.get(test_server_base_url+"/book").text == expected_response
+
+
+def test_alternative_route_django_style(app, client):
+    expected_response_text = "Alternative way to add a route"
+
+    def home(req, resp):
+        resp.text = expected_response_text
+
+    app.add_route("/alternative", home)
+
+    assert client.get(test_server_base_url+"/alternative").text == expected_response_text

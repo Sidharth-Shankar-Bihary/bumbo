@@ -9,12 +9,19 @@ class API:
     def __init__(self):
         self.routes = dict()
 
+    def add_route(self, path, handler):
+        if path in self.routes:
+            raise ValueError("Such route already exists.")
+        
+        self.routes[path] = handler
+
+
     def route(self, path):
         if path in self.routes:
             raise ValueError("Such route already exists.")
 
         def wrapper(handler):
-            self.routes[path] = handler
+            self.add_route(path, handler)
             return handler
 
         return wrapper
