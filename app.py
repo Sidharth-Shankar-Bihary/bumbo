@@ -1,5 +1,6 @@
 from api import API
 from middleware import Middleware
+from time import sleep
 
 
 app = API()
@@ -67,3 +68,15 @@ class LoggingCustomMiddleware(Middleware):
         print(f"Processing response for request : {req.url}")
 
 app.add_middleware(LoggingCustomMiddleware)
+
+
+class SleepCustomMiddleware(Middleware):
+    def process_request(self, req):
+        print(f"Sleeping for 5 secs request: {req.url}")
+        sleep(5)
+
+    def process_response(self, req, resp):
+        print(f"Sleeping for 2 secs response for request : {req.url}")
+        sleep(2)
+
+app.add_middleware(SleepCustomMiddleware)
