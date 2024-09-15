@@ -1,4 +1,5 @@
 from api import API
+from middleware import Middleware
 
 
 app = API()
@@ -55,5 +56,14 @@ app.add_route("/home2", handler2)
 def custom_exception_handler(request, response, exception_cls):
     response.text = "Oops! Something went wrong. Please contact our customer support."
 
-
 app.add_exception_handler(custom_exception_handler)
+
+
+class LoggingCustomMiddleware(Middleware):
+    def process_request(self, req):
+        print(f"Processing request: {req.url}")
+
+    def process_response(self, req, resp):
+        print(f"Processing response for request : {req.url}")
+
+app.add_middleware(LoggingCustomMiddleware)
